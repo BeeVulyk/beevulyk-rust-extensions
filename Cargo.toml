@@ -1,0 +1,51 @@
+[package]
+name = "beevulyk-rust-extensions"
+version = "0.1.0"
+edition = "2021"
+description = "General-purpose Rust utilities for the BeeVulyk platform (forked from ITYFT/yft-rust-extension)."
+repository = "https://github.com/BeeVulyk/beevulyk-rust-extensions"
+homepage = "https://github.com/BeeVulyk/beevulyk-rust-extensions"
+documentation = "https://github.com/BeeVulyk/beevulyk-rust-extensions"
+license-file = "LICENSE.md"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[features]
+default = []
+app-states = ["signal-hook", "dep:tokio", "tokio/time"]
+date = ["dep:chrono", "dep:serde"]
+event-loop = [
+    "app-states",
+    "tokio/sync",
+    "tokio/rt",
+    "dep:async-trait",
+    "dep:tracing",
+]
+timers = ["app-states", "dep:tracing", "dep:async-trait", "tokio/rt"]
+objects-pool = ["tokio/sync", "tokio/rt", "tokio/time", "dep:async-trait"]
+task-completion = ["tokio/sync"]
+base64 = ["dep:base64"]
+hex = ["dep:hex"]
+array-bytes-iterator = ["dep:async-trait"]
+async-array-bytes-iterator = [
+    "array-bytes-iterator",
+    "dep:async-trait",
+    "dep:tokio",
+    "tokio/io-util",
+    "tokio/sync",
+    "tokio/fs",
+]
+
+[dependencies]
+tokio = { version = "*", optional = true }
+
+chrono = { version = "*", optional = true }
+async-trait = { version = "*", optional = true }
+signal-hook = { version = "*", optional = true }
+base64 = { version = "*", optional = true }
+serde = { version = "*", features = ["derive"], optional = true }
+hex = { version = "*", optional = true }
+tracing = { version = "*", optional = true }
+
+[dev-dependencies]
+serde_json = "*"
